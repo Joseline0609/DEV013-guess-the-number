@@ -16,21 +16,33 @@ def generate_random_number ():
     """function to generate a random number to  call when necessary"""
     return random.randint(1, 100)
 
-def validate_inputs(secret_number, conjecture):
+def validate_user_inputs(secret_number, conjecture):
     """function to validate if the conjectures are equal to the secret number"""
+    message = ""
+
     if conjecture < secret_number:
-        menssage_low = pyfiglet.figlet_format("Demasiado bajo:(", font="digital")
-        print(menssage_low)
-        return menssage_low
+        message += "Demasiado bajo:("
     elif conjecture>secret_number:
-        message_high = pyfiglet.figlet_format("Demasiado alto:(", font="digital")
-        print(message_high)
-        return message_high
+        message += "Demasiado alto:("
     else:
-        winner_message = "¡Felicidades!:) ¡Adivinaste el número!"
-        print(winner_message)
-        play_again()
-        return winner_message
+        message += "¡Felicidades!:) ¡Adivinaste el número!"
+
+    customize_message= pyfiglet.figlet_format(message, font="digital")
+    return customize_message
+
+def validate_computer_number(secret_number, conjecture):
+    """function to validate if the numbers generated are equal to the secret number"""
+    message = ""
+
+    if conjecture < secret_number:
+        message += "Muy bajo:("
+    elif conjecture>secret_number:
+        message += "Muy alto alto:("
+    else:
+        message += "¡Tu oponente ha adivinado el numero!"
+
+    return message
+
 
 def play_again():
     """function to restart the game"""
@@ -47,11 +59,13 @@ def game():
     SECRET_NUMBER = generate_random_number()
       # variable to save the user conjectures
     user_conjectures = []
+    computer_conjectures = []
 
     while True:
         # variable to save the user input and convert it into an intenger
         user_conjecture = int(input("Qué número eliges?"))
-        validate_inputs(SECRET_NUMBER, user_conjecture)
+        message = validate_user_inputs(SECRET_NUMBER, user_conjecture)
+        print(message)
         # add the user conjecture to the list
         user_conjectures.append(user_conjecture)
 
@@ -62,13 +76,19 @@ def game():
 
         computer_conjecture = generate_random_number()
         print(f"La computadora adivinó: {computer_conjecture}")
-        validate_inputs(SECRET_NUMBER, computer_conjecture)
-        user_conjectures.append(user_conjecture)
+        message = validate_computer_number(SECRET_NUMBER, computer_conjecture)
+        print(message)
+        computer_conjectures.append(computer_conjecture)
 
         if computer_conjecture == SECRET_NUMBER:
-            print(f"Tus intentos fueron: {user_conjectures}")
+            print(f"Sus intentos fueron: {computer_conjectures}")
             break
+
+def execute_game():
+    """To reload the game"""
+    game()
+    play_again()
 
 
 if __name__ == "__main__":
-    game()
+    execute_game()
