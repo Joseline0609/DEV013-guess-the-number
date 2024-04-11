@@ -10,8 +10,6 @@ def saludar():
     print(ascii_art)
     print("Intenta adivinar un número entre 1 y 100.")
 
-saludar()
-
 def generate_random_number ():
     """function to generate a random number to  call when necessary"""
     return random.randint(1, 100)
@@ -56,7 +54,8 @@ def play_again():
 def game():
     """game logic"""
       # generate the secret number
-    SECRET_NUMBER = generate_random_number()
+    secret_number = generate_random_number()
+    print(secret_number)
       # variable to save the user conjectures
     user_conjectures = []
     computer_conjectures = []
@@ -64,28 +63,29 @@ def game():
     while True:
         # variable to save the user input and convert it into an intenger
         user_conjecture = int(input("Qué número eliges?"))
-        message = validate_user_inputs(SECRET_NUMBER, user_conjecture)
+        message = validate_user_inputs(secret_number, user_conjecture)
         print(message)
         # add the user conjecture to the list
         user_conjectures.append(user_conjecture)
 
-        if user_conjecture == SECRET_NUMBER:
+        if user_conjecture == secret_number:
         # print the user conjectures into the terminal
             print(f"Tus intentos fueron: {user_conjectures}")
             break
 
         computer_conjecture = generate_random_number()
         print(f"La computadora adivinó: {computer_conjecture}")
-        message = validate_computer_number(SECRET_NUMBER, computer_conjecture)
+        message = validate_computer_number(secret_number, computer_conjecture)
         print(message)
         computer_conjectures.append(computer_conjecture)
 
-        if computer_conjecture == SECRET_NUMBER:
+        if computer_conjecture == secret_number:
             print(f"Sus intentos fueron: {computer_conjectures}")
             break
 
 def execute_game():
-    """To reload the game"""
+    """To start (and restart when necesary) the game"""
+    saludar()
     game()
     play_again()
 
